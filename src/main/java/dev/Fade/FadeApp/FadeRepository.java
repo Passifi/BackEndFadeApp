@@ -1,0 +1,15 @@
+package dev.Fade.FadeApp;
+
+import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import dev.Fade.FadeApp.entities.Fade;
+
+public interface FadeRepository extends JpaRepository<Fade,Long> {
+    List<Fade> findAllByOrderByLastUpvoteDesc();        
+    List<Fade> findTop20ByOrderByLastUpvoteDesc();        
+    Page<Fade> findAll(Pageable pageable);
+}
