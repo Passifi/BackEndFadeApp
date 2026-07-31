@@ -1,5 +1,6 @@
 package dev.Fade.FadeApp;
 
+import java.time.Instant;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -12,4 +13,5 @@ public interface FadeRepository extends JpaRepository<Fade,Long> {
     List<Fade> findAllByOrderByLastUpvoteDesc();        
     List<Fade> findTop20ByOrderByLastUpvoteDesc();        
     Page<Fade> findAll(Pageable pageable);
+    List<Fade> findBylastUpvoteAfter(Instant cutoff);
 }
