@@ -14,4 +14,5 @@ public interface FadeRepository extends JpaRepository<Fade,Long> {
     List<Fade> findTop20ByOrderByLastUpvoteDesc();        
     Page<Fade> findAll(Pageable pageable);
     List<Fade> findBylastUpvoteAfter(Instant cutoff);
+    
 }

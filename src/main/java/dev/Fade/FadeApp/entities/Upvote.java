@@ -29,7 +29,7 @@ public class Upvote {
 
     }
 
-    protected Upvote(Instant createdAt) {
+    public Upvote(Instant createdAt) {
         this.createdAt = createdAt;
     }
 
