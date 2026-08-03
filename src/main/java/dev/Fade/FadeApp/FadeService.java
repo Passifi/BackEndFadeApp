@@ -65,9 +65,9 @@ public class FadeService {
         }
     }
 
-    public Iterable<Upvote> getUpvotesByFade(Fade fade) {
+    public Iterable<Upvote> getUpvotesByFade(long fadeId) {
         try {
-            return upvoteRepository.findByFade(fade);
+            return upvoteRepository.findByFadeId(fadeId);
         }
         catch(Exception e) {
             throw e;

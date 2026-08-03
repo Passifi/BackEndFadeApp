@@ -10,4 +10,5 @@ import dev.Fade.FadeApp.entities.Upvote;
 
 public interface UpvoteRepository extends  JpaRepository<Upvote,Long>{
     public List<Upvote> findByFade(Fade fade);    
+    public List<Upvote> findByFadeId(long id);
 }
