@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import dev.Fade.FadeApp.entities.Fade;
 import dev.Fade.FadeApp.entities.Upvote;
+import jakarta.transaction.Transactional;
 
 
 @Service
@@ -19,12 +20,21 @@ public class FadeService {
     static long Max_Fades = 100;
  private final FadeRepository fadeRepository;
  private final UpvoteRepository upvoteRepository;
+ private FadeScoreCalculator scorer = new FadeScoreCalculator();
     public FadeService(FadeRepository repo, UpvoteRepository upvoteRepo) {
         fadeRepository = repo;
         upvoteRepository = upvoteRepo;
     }
     public void createNewFade(String content) {
         fadeRepository.save(new Fade(content));
+    }
+
+    @Transactional
+    public void updateFadeScore(long fadeId) {
+        var fade = fadeRepository.findById(fadeId).orElseThrow();
+        var upvotes = upvoteRepository.findByCreatedAtBeforeAndFadeId(fadeId,Instant.now().minus(30,ChronoUnit.DAYS));
+        var score = scorer.calculateScore(upvotes, Instant.now());
+        fade.setScore(score);
     }
     public Iterable<Fade> getDisocveryFades() {
         try {

@@ -12,6 +12,7 @@ import dev.Fade.FadeApp.entities.Fade;
 public interface FadeRepository extends JpaRepository<Fade,Long> {
     List<Fade> findAllByOrderByLastUpvoteDesc();        
     List<Fade> findTop20ByOrderByLastUpvoteDesc();        
+    Fade findFadeById(long id);
     Page<Fade> findAll(Pageable pageable);
     List<Fade> findBylastUpvoteAfter(Instant cutoff);
     

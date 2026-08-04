@@ -24,6 +24,7 @@ public class Fade {
     private String content;
     private Instant createdAt;
     private Instant lastUpvote;
+    private float score;
     @OneToMany(mappedBy = "fade",cascade=CascadeType.ALL,orphanRemoval = true)
     private List<Upvote> upvotes = new ArrayList<>();
     
@@ -50,7 +51,12 @@ public class Fade {
     public Instant getCreatedAt() {
         return createdAt;
     }
-
+    public float getScore() {
+        return score;
+    }
+    public void setScore(float score) {
+        this.score = score;
+    }
     public Instant getLastUpvote() {
         return lastUpvote;
     }

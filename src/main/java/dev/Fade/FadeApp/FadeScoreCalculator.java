@@ -1,9 +1,7 @@
 package dev.Fade.FadeApp;
-
 import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
-
 public class FadeScoreCalculator {
     public FadeScoreCalculator() {}
     private float calculateDistanceScore(Instant reference, Instant other) {
@@ -18,6 +16,4 @@ public class FadeScoreCalculator {
         } 
         return totalScore;
     }
-
-    
 }
