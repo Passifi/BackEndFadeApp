@@ -52,18 +52,13 @@ public class FadeService {
         }
     }
 
-    public void vote(long fadeId) {
-        try { 
+    public Fade vote(long fadeId) {
         Upvote upvote =  new Upvote(Instant.now());
-        var fade = fadeRepository.findById(fadeId); 
-        
-        if(fade == null) {
-            throw new RuntimeException("Not Found");
-        } 
-        upvoteRepository.save(upvote);}
-        catch(Exception e) {
-            throw e;
-        }
+        var fade = fadeRepository.findById(fadeId).orElseThrow(); 
+        upvote.setFade(fade);
+        upvoteRepository.save(upvote);
+        updateFadeScore(fadeId);
+        return fade;
     }
 
     public Iterable<Fade> getFades() {
