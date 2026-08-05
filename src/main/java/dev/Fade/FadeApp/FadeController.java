@@ -1,5 +1,7 @@
 package dev.Fade.FadeApp;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -15,6 +17,8 @@ import dev.Fade.FadeApp.entities.Fade;
 @RestController()
 @RequestMapping("/fades")
 public class FadeController {
+    private static final Logger logger = 
+        LoggerFactory.getLogger(FadeService.class);
     private final FadeService fadeService; 
     @GetMapping("/getFades") 
     public Iterable<Fade> getFades() {
@@ -38,6 +42,7 @@ public class FadeController {
         try {
             fadeService.vote(fadeID); }
             catch(Exception e) {
+
 
             throw new ResponseStatusException(HttpStatus.NOT_MODIFIED);
             }
