@@ -6,6 +6,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,7 @@ public class FadeController {
     private static final Logger logger = 
         LoggerFactory.getLogger(FadeService.class);
     private final FadeService fadeService; 
+    @CrossOrigin
     @GetMapping("/getFades") 
     public Iterable<Fade> getFades() {
         try {
