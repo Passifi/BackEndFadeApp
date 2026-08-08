@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,7 +32,9 @@ public class FadeController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
     }
-    @PutMapping("/createFade") 
+
+    @CrossOrigin
+    @PostMapping("/createFade") 
     public void createFade(@RequestParam String content) {
         try {
             fadeService.createNewFade(content);
@@ -39,7 +42,9 @@ public class FadeController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
     }
-    @PutMapping("/upvote") 
+
+    @CrossOrigin
+    @PostMapping("/upvote") 
     public void vote(@RequestParam long fadeID) {
         try {
             fadeService.vote(fadeID); }
