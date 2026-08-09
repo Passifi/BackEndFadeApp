@@ -16,7 +16,7 @@ public interface UpvoteRepository extends  JpaRepository<Upvote,Long>{
     @Query("""
         select u.createdAt
         from Upvote u
-        where u.fade.id = :fadeId
+        where u.fade.id = :id
         and u.createdAt < :cutOff
         order by u.createdAt
         """

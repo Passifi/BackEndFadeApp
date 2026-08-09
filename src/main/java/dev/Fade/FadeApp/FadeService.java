@@ -30,21 +30,28 @@ public class FadeService {
     }
 
     @Transactional
-    public void updateFadeScore(long fadeId) {
+    public Fade updateFadeScore(long fadeId) {
         var fade = fadeRepository.findById(fadeId).orElseThrow();
         var upvotes = upvoteRepository.findByCreatedAtBeforeAndFadeId(fadeId,Instant.now().minus(30,ChronoUnit.DAYS));
         var score = scorer.calculateScore(upvotes, Instant.now());
+
+        fade = fadeRepository.findById(fadeId).orElseThrow();
+
         fade.setScore(score);
+        return fade;
     }
     public Iterable<Fade> getDisocveryFades() {
         try {
         Instant cutoff = Instant.now().minus(30,ChronoUnit.DAYS);
         var fades = fadeRepository.findBylastUpvoteAfter(cutoff);
         List<Fade> results = new ArrayList<Fade>();
-        if(results.size() < Max_Fades)
-            return fades;
+
         for(var fade : fades) {
-            
+            if(fade.getScore() == 0) {
+                var upvotes = upvoteRepository.findByCreatedAtBeforeAndFadeId(fade.getId(),Instant.now().minus(30,ChronoUnit.DAYS));
+                float score = scorer.calculateScore(upvotes, cutoff);
+                fade.setScore(score);
+            }
         }
         return fades; }
         catch (Exception e) {
@@ -57,7 +64,7 @@ public class FadeService {
         var fade = fadeRepository.findById(fadeId).orElseThrow(); 
         upvote.setFade(fade);
         upvoteRepository.save(upvote);
-        updateFadeScore(fadeId);
+        fade = updateFadeScore(fadeId);
         return fade;
     }
 
