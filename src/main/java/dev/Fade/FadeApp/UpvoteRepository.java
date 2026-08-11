@@ -17,7 +17,7 @@ public interface UpvoteRepository extends  JpaRepository<Upvote,Long>{
         select u.createdAt
         from Upvote u
         where u.fade.id = :id
-        and u.createdAt < :cutOff
+        and u.createdAt < :cutoff
         order by u.createdAt
         """
     )
