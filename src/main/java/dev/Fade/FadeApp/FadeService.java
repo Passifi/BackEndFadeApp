@@ -34,8 +34,6 @@ public class FadeService {
         var fade = fadeRepository.findById(fadeId).orElseThrow();
         var upvotes = upvoteRepository.findByCreatedAtBeforeAndFadeId(fadeId,Instant.now().minus(30,ChronoUnit.DAYS));
         var score = scorer.calculateScore(upvotes, Instant.now());
-
-
         fade.setScore(score);
         return fade;
     }
