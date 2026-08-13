@@ -3,6 +3,10 @@ package dev.Fade.FadeApp;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.management.RuntimeErrorException;
@@ -10,6 +14,7 @@ import javax.management.RuntimeErrorException;
 import org.hibernate.boot.beanvalidation.GroupsPerOperation.Operation;
 import org.springframework.stereotype.Service;
 
+import dev.Fade.RandomHelper;
 import dev.Fade.FadeApp.entities.Fade;
 import dev.Fade.FadeApp.entities.Upvote;
 import jakarta.transaction.Transactional;
@@ -17,7 +22,7 @@ import jakarta.transaction.Transactional;
 
 @Service
 public class FadeService {
-    static long Max_Fades = 100;
+    static long Max_Fades = 20;
  private final FadeRepository fadeRepository;
  private final UpvoteRepository upvoteRepository;
  private FadeScoreCalculator scorer = new FadeScoreCalculator();
@@ -40,9 +45,8 @@ public class FadeService {
     public Iterable<Fade> getDisocveryFades() {
         try {
         Instant cutoff = Instant.now().minus(30,ChronoUnit.DAYS);
-        var fades = fadeRepository.findBylastUpvoteAfter(cutoff);
-        List<Fade> results = new ArrayList<Fade>();
-
+        var fades = getRandomSelection(fadeRepository.findBylastUpvoteAfter(cutoff));
+        
         for(var fade : fades) {
             if(fade.getScore() == 0) {
                 var upvotes = upvoteRepository.findByCreatedAtBeforeAndFadeId(fade.getId(),Instant.now().minus(30,ChronoUnit.DAYS));
@@ -81,5 +85,17 @@ public class FadeService {
         catch(Exception e) {
             throw e;
         }
+    }
+
+    private Iterable<Fade> getRandomSelection(List<Fade> fades) {
+        if(fades.size() < Max_Fades) {
+            return fades;
+        }
+
+        List<Fade> result = new LinkedList<Fade>();
+        RandomHelper<Fade> rng = new RandomHelper<Fade>();
+        result = rng.getSelection((int)Max_Fades, fades); 
+
+        return result;        
     }
 }
